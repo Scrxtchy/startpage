@@ -1,44 +1,44 @@
 function $(query){
-    var dom = function(query){
-        this.elements = [];
-        switch(query[0]){
-            case "#":
-                this.elements[0] = document.getElementById(query.substr(1));
-                break;
-            case ".":
-                this.elements = document.getElementsByClassName(query.substr(1));
-                break;
-            default:
-                this.elements = document.getElementsByTagName(query);
-        }
-        this.length = this.elements.length;
-    };
+	var dom = function(query){
+		this.elements = [];
+		switch(query[0]){
+			case "#":
+				this.elements[0] = document.getElementById(query.substr(1));
+				break;
+			case ".":
+				this.elements = document.getElementsByClassName(query.substr(1));
+				break;
+			default:
+				this.elements = document.getElementsByTagName(query);
+		}
+		this.length = this.elements.length;
+	};
 
-    dom.prototype.css = function(key, value){
-        for(var i = 0; i < this.elements.length; i++){
-            try {
-                this.elements[i].style[key] = value;
-            } catch(err) {
-                console.log(err);
-                console.log({key: value});
-            }
-        }
-    };
+	dom.prototype.css = function(key, value){
+		for(var i = 0; i < this.elements.length; i++){
+			try {
+				this.elements[i].style[key] = value;
+			} catch(err) {
+				console.log(err);
+				console.log({key: value});
+			}
+		}
+	};
 
-    return new dom(query);
+	return new dom(query);
 }
 
 $.loadJSON = function(url, callback){
-    var request = new XMLHttpRequest();
-    request.overrideMimeType("application/json");
+	var request = new XMLHttpRequest();
+	request.overrideMimeType("application/json");
 
-    request.onload = function(){
-        if(request.status == "200"){
-            callback(JSON.parse(request.responseText));
-        }
-    };
+	request.onload = function(){
+		if(request.status == "200"){
+			callback(JSON.parse(request.responseText));
+		}
+	};
 
-    request.open("GET", url, false);
-    request.send();
+	request.open("GET", url, false);
+	request.send();
 };
 
