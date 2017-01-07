@@ -7,6 +7,7 @@ function ConfigObject(items){
 var boolItems = {
     borders: "Borders",
     alwaysopen: "Keep all squares open",
+    capstext: "All text use capitals",
     mascot: "Enable background image/mascot",
     allow_version_check: "Allow checking for new versions",
     use_json_file: "Use config.json instead of this menu"
@@ -19,6 +20,7 @@ var styleItems = {
     heading_font_size: "Heading Font Size",
     link_font_size: "Link Font Size",
     background: "Background",
+    bg_type: "Background Type",
     foreground: "Foreground",
     heading_color: "Heading Color",
     link_color: "Link Color",
@@ -29,7 +31,7 @@ var styleItems = {
     focus_bg_color: "Focus Background Color",
     search_color: "Search Color",
     search_bg_color: "Search Background Color"
-};
+    };
 var style = new ConfigObject(styleItems);
 
 var extItems = {
@@ -379,7 +381,30 @@ function loadConfig(d, callback){
     span.css("fontSize", data.style.heading_font_size);
     a.css("fontSize", data.style.link_font_size);
     popup.css("fontSize", data.style.link_font_size);
-    $("body").css("backgroundColor", data.style.background);
+    switch (data.style.bg_type) {
+        case "mp4":
+        case "webm":
+        case "ogg":
+            BackgroundString = '<video autoplay loop id="bgvid"><source src="' + data.style.background + '" type="video/' + data.style.bg_type + '"></video>';
+            try{
+                $("#bgimg").elements[0].outerHTML = BackgroundString;
+            }
+            catch(err)
+            {
+                $("#bgvid").elements[0].outerHTML = BackgroundString;
+            }
+            $("body").css("backgroundColor", "black");
+            $("#bgvid").css("opacity", '0.3');
+            break;
+        case "img":
+            $("body").css("background", 'url(' + data.style.background + ') no-repeat fixed center');
+            $("body").css("background-size", 'cover');
+        case "css":
+        default:
+            $("body").css("backgroundColor", data.style.background);
+            break;
+    }
+    
     sqr.css("backgroundColor", data.style.foreground);
     popup.css("backgroundColor", data.style.foreground);
     span.css("color", data.style.heading_color);
@@ -388,6 +413,9 @@ function loadConfig(d, callback){
     sqr.css("borderColor", data.style.border_color);
     if(!data.bool.alwaysopen){
         sqr.css("borderWidth", data.style.border_width_normal);
+    }
+    if(data.bool.capstext){
+        sqr.css("text-transform", "uppercase");
     }
     popup.css("borderTop", data.style.border_width_normal + " solid " + data.style.border_color);
     var searchinput = $("#searchinput");
@@ -407,8 +435,6 @@ function loadConfig(d, callback){
         bgimg.css("height", data.ext.height);
         bgimg.css("width", data.ext.width);
         bgimg.css("opacity", data.ext.opacity);
-    }else{
-        bgimg.css("backgroundImage", "");
     }
 
     if(callback){

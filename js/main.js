@@ -14,7 +14,7 @@ function version(){
     };
 
     request.open("get",
-            "http://api.github.com/repos/fuyuneko/startpage/releases/latest",
+            "http://api.github.com/repos/scrxtchy/startpage/releases/latest",
             false);
     request.send();
 
@@ -189,7 +189,7 @@ function main(){
     if(data.bool.allowVersionCheck){
         var ver = version();
         if(ver){
-            var verMsg = "<a href='https://github.com/fuyuneko/startpage/" +
+            var verMsg = "<a href='https://github.com/scrxtchy/startpage/" +
                          "releases'>A new version is available: " + ver +
                          "</a>";
 

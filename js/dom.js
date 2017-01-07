@@ -16,7 +16,12 @@ function $(query){
 
     dom.prototype.css = function(key, value){
         for(var i = 0; i < this.elements.length; i++){
-            this.elements[i].style[key] = value;
+            try {
+                this.elements[i].style[key] = value;
+            } catch(err) {
+                console.log(err);
+                console.log({key: value});
+            }
         }
     };
 
