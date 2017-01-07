@@ -1,173 +1,53 @@
-startpage
-====
+# startpage
 
-![example screenshot](http://i.imgur.com/Rof7csF.png)
+A simple, customisable startpage/homepage.
 
-![example screenshot expanded](http://i.imgur.com/1xlJZfh.png)
+<p align="center"><img alt="example screenshot"
+                   src="/img/screenshots/2016-08-19-open.png?raw=true"></p>
 
+## Installation
 
-<br>
+Clone the repository or
+[download](https://github.com/fuyuneko/startpage/archive/master.zip) the zip.
 
-##### Usage
-The easiest way to make changes is by editing _config.json_ and _index.html_.
+##### Firefox
+Download an extension that lets you change the newtab page, then just add the
+path to `index.html` as the URL, e.g.:
+`file:///home/yuki/startpage/index.html` or
+`file:///c:/startpage/index.html`
 
+If you're using an older version of Firefox you can simply change
+`browser.newtab.url` in `about:config`.
 
-Essential options are changed in the files _config.json_, _links.js_ and _commands.js_
+##### Chromium/Chrome
+Download the `.crx file` from the
+[latest release](https://github.com/fuyuneko/startpage/releases/latest) and open
+it with Chrome.<br>
+If a `.crx` file for a release isn't available or you want to use the latest
+version on github you will have to
+[download](https://github.com/fuyuneko/startpage/blob/chromium-patch/manifest.json)
+the manifest.json for the startpage and save it in the same directory as the
+startpage. Go to Chrome's extension menu, enable _developer mode_, click on
+_"load unpacked extension"_ and select the folder you saved the startage in.
 
-<br>
-###### JSON Bool
-| attribute    | Description                                        |
-| ------------ | :--------------------------------------------------: |
-| borders      | if true, enables borders on top and bottom                    |
-| alwaysopen   | if true, makes all squares open on load                       |
-| mascot       | if true, enables image in the bottom right hand corner        |
-| uppercase    | if true, makes all text in cells to be uppercase              |
-| background   | directory to background file                         |
-| opacity      | opacity of background layer |
-| title        | tab title |
-| command_prefix | prefix used to enter subcommands |
-| useLinkJs     | Use js files to create elements (default on)|
+## Configuration
+The startpage can be configured by using a configuration file or by using a
+built-in menu.<br>
+If you're using some sort of private/incognito mode in your browser the
+configuration will not be saved and has to be loaded from `config.json`
+every time the page is reloaded. To prevent the configuration menu from
+appearing every time you load the page you will have to set `privateMode`
+to `true` in `config.json`.
 
+When first opening the startpage you can choose to load the configuration from
+the `config.json` file or configure the page by using the configuration
+menu. Choose whatever you like, you will be able to change this later.<br>
 
-###### background_type 
-| background_type | description |
-|--------------| :-------------------------------:|
-| mp4 | mp4 video file |
-| webm | webm video file |
-| ogg | ogg video file |
-| clr | colour value |
-| img | image file (default)|
+Because of the way the configuration menu saves data, moving the startpage's
+directory to a different location will result in it not being able to load the
+config. Moving it back should fix it. You can export the configuration as a JSON
+file in the menu, then move the directory and load the file.
 
-
-_ref_ can take either an URL or the path to a local image.
-
-<br>
-
-
-##### Adding links
-
-###### JS
-To add/remove a square, open _links.js_ and copy/create a new section of code and name it's parameters correctly
-for example
-```
-blockArr.push({
-	title:			"content", //Title Name
-	type:			"link", //Type of block
-	num:			"1" //Order Placement
-});
-```
-
-There are two types of blocks, _link_ and _search_.
-Only one block can have proper search functionality/style.
-
-To add links to the block, copy/create a new section of code and name it's parameters correctly.
-for example
-```
-linksArr.push({
-	name:			"/a/", //Title Name
-	href:			"http://boards.4chan.org/a/", //destination
-    lang:			"", //Language (Optional)
-	media:			[[]], //Media (Optional)
-	rel:			[[]], //rel (Optional)
-	block:			1 //Block to appear in
-});
-```
-
-###### HTML
-To add/remove a square just add/remove a _div .sqr_ within _div #cell_.<br>
-Keep the structure like this:
-```
-<div class="sqr">
-    <span>HEADING</span>
-    <div class="content">
-        <a href="URL">LINK TITLE</a><br>
-        <a href="URL">LINK TITLE</a><br>
-        ...
-        <a href="URL">LINK TITLE</a>
-    </div>
-</div>
-```
-
-<br>
-###### search
-```
--h      open search help (-- and /? are also accepted)
--g      google
--b      bing
--y      youtube
--d      duckduckgo
--n      niconico
--p      pixiv
-gt      github
--w      wikipedia
-go      direct url
-```
-
-###### commands
-```
->>        open command help
->>df      define (google)
->>qr      scan qr
->>ri      reverse image
-```
-
-
-The following example will search for _github_ using _DuckDuckGo_:
-```
--d github
-```
-If an invalid search option or none at all is specified, The first entry in the search array is used.
-For danbooru, use underscores (_) for tags with more than one word and separate multiple tags with space (e.g.: school_uniform 1girl).
-
-###### adding commands
-
-There are three types of commands, search commands, subcommands and help commands (which open menus listing commands)
-```
-searchArr.push({
-	name:			"google", //Name of search
-	command:		"-g", //comand
-	url: 			"https://www.google.com/#q=", //url to query page
-	replaceChars: 	[[" ", "_"]], //Charcters to replace in url
-	bmPrefix:		"https://www.google.com/#q=" //Prefix used on bookmarks, makes sence on diverse networks
-	bookmark:		[["hideki kamiya", "神谷英樹"]] //Multi-Dimensional array of bookmarks
-});
-```
-
-```
-commandArr.push({
-	name:			"scan qr", //Name of command
-	command:		"qr", //comand
-	url: 			"http://zxing.org/w/decode?u=", //url to destination
-	replaceChars: 	[[]], //Charcters to replace
-	bmPrefix:		"" //Prefix used on bookmark
-	bookmark:		[[]] Multi-Dimensional array of bookmarks
-});
-```
-
-More character replacements can be used with more arrays or for bookmark entries
-```
-[["_"," "],["%20"," "]]
-```
-
-###### adding bookmark
-
-Bookmarks are preset queries that can be used to go to a direct url from a simple term. These are checked for last, and are not triggered if a search/command has been triggered
-
-```
-bookArr.push({
-	command:		"github",
-	url:			"https://github.com/"
-})
-```
-
-
-
-#### TODO
-
-* Cleanup Code
-* Optimise
-* Consider using objects instead of arrays for config so that they can be more easily implemented
-* Finish or scrap verbosity (Might remove it in favour of web debugger)
-
-Master: https://github.com/yukisuki/startpage
-Fork: https://github.com/Scrxtchy/startpage
+## Contact
+If you're having problems or have an improvement you can create an issue
+[here](https://github.com/fuyuneko/startpage/issues).
