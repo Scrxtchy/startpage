@@ -151,7 +151,7 @@ function createMenu(data, callback) {
 					})
 				})
 			}
-			if (squares[i].options === undefined) {
+			if (squares[i].inputs === undefined) {
 				var add = configmenu.tabs[0]
 					.categories[0]
 					.options[i]

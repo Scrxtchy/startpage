@@ -293,8 +293,8 @@ TextField.prototype.addEvent = function(add){
 				textfieldDiv.appendChild(node);
 			}else if(cssClass == "squareOption"){
 				textfieldDiv.removeChild(node);
-				parentObject.appendTextField("option" + index, ["opt", "url", "space"], "squareOption",
-											 ["option", "url", "space"], 3, index);
+				parentObject.appendTextField("option" + index, ["prefix", "id", "name", "url", "space"], "squareOption",
+											 ["","","", "https://", ""], 5, index);
 				textfieldDiv.appendChild(node);
 			}else if(cssClass == "squareHeading"){
 				// new square
@@ -326,10 +326,10 @@ TextField.prototype.addEvent = function(add){
 					var addObject = parentCategoryObject.options.pop();
 					parentCategoryObject.element.removeChild(addObject.node);
 					var sqr = parentCategoryObject.appendSquareDiv("new search square");
-					sqr.appendTextField("heading" + index, [index, "prefix"],
-										"squareHeading", ["new search square", "-"], 2, index, parentCategoryObject);
-					sqr.appendTextField("option" + index, ["opt", "url", "space"],
-							"squareOption", ["default", "url", "+"], 3);
+					sqr.appendTextField("heading" + index, index,
+										"squareHeading", "new search square", 1, index, parentCategoryObject);
+					sqr.appendTextField("option" + index, ["prefix", "id", "name", "url", "space"],
+							"squareOption", ["-","w","website", "http://url", "+"], 5);
 					sqr.appendTextField("link" + index, undefined,"squareOption",
 										undefined, 0, index);
 					parentCategoryObject.element.appendChild(parentObject.node);
