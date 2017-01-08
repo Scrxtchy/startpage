@@ -84,13 +84,16 @@ String.prototype.replaceChars = function(character, replacement){
 
 
 function search(query){
+	//--key value
 	var pattern =/^([^\w\d]+)([\w\d]+)/; //SEARCH PATTERN
 	var formattedQuery = pattern.exec(query);
 	if (formattedQuery == null){
-		window.location = searchsquare.links[0].options[0].url + query.replaceChars(" ", searchsquare.links[0].options[0].space);
+		destination = searchsquare.links[Object.keys(searchsquare.links)[0]][Object.keys(searchsquare.links[Object.keys(searchsquare.links)[0]])[0]]
+		window.location = destination.url + query.replaceChars(" ", destination.space);
 	} else {
 		formattedQuery.push(formattedQuery.input.replace(formattedQuery[0]+ " ", ""))
 	}
+	//FORMATTED QUERY// ["--key", "--", "key", "Value"]
 	if(typeof searchsquare == 'undefined'){
 		configmenuInit(undefined);
 	}else if (formattedQuery[0] == "-help"){
@@ -100,15 +103,10 @@ function search(query){
 	}else if (formattedQuery[0] === ""){
 		popup(popupDiv, HelpText);
 	}else{ //search
-		searchsquare.links.forEach(function(arrInputItem){
-			if (formattedQuery[1] == arrInputItem.prefix){
-				arrInputItem.options.forEach(function(arrUrlItem){
-					if(formattedQuery[2] == arrUrlItem.opt){
-						window.location = arrUrlItem.url  + formattedQuery[3].replaceChars(" ", arrUrlItem.space);
-					}
-				})
-			}
-		})
+		dest = searchsquare.links[formattedQuery[1]][formattedQuery[2]]
+		if(dest){
+			window.location = dest.url + formattedQuery[3].replaceChars(" ", dest.space)
+		}
 	}
 }
 
@@ -121,10 +119,13 @@ var focusedSquare = -1;
 var focusedLink = 0;
 
 function globalKeyListener(e){
-	if(typeof configmenu !== "undefined" ||
+	if (e.charCode == 96 && e.ctrlKey && typeof configmenu !== "undefined"){
+		location.reload(); //Change back when able to properly use
+		return;
+	}else if(typeof configmenu !== "undefined" ||
 	   searchsquare.searchinput == document.activeElement){
 		return;
-	}
+	} 
 
 	var key = e.keyCode;
 	if(key == 9){
@@ -132,6 +133,8 @@ function globalKeyListener(e){
 		searchsquare.squareElement.style.height = "337px";
 		searchsquare.squareElement.style.borderWidth = data.style.border_width_hovered;
 		searchsquare.searchinput.focus();
+	}else if(e.charCode == 96 && e.ctrlKey){
+		if(!$('#Config-Menu').elements[0]) configmenuInit(undefined);			
 	}else if(key == 37){
 		// left arrow
 		if(focusedSquare > 0){

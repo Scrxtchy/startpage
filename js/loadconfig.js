@@ -106,7 +106,7 @@ function createMenu(data, callback){
 		var squares = JSON.parse(localStorage.squares);
 
 		for(var i=0; i < squares.length; i++){
-			if(squares[i].options === undefined){
+			if(squares[i].inputs === undefined){
 				var div = configmenu.tabs[0]
 									.categories[0]
 									.appendSquareDiv(squares[i].name);
@@ -131,17 +131,34 @@ function createMenu(data, callback){
 				configmenu.tabs[0]
 						  .categories[0]
 						  .options[i]
-						  .appendTextField("heading" + i, [i, "prefix"], "squareHeading",
-										   [squares[i].name, squares[i].prefix], 2, i, normalcategory);
-				for(var a=0; a < squares[i].options.length; a++){
+						  .appendTextField("heading" + i, i, "squareHeading",
+										   squares[i].name, 1, i, normalcategory); //SEARCH HEADING
+
+						Object.keys(squares[i].inputs).forEach(function(prefixItem){
+							Object.keys(squares[i].inputs[prefixItem]).forEach(function(searchItem){
+								var tf = configmenu.tabs[0]
+										.categories[0]
+										.options[i]
+										.appendTextField("option" + i, ["prefix", "id","name", "url", "space"], "squareOption",
+												[prefixItem,
+												 searchItem,
+												 squares[i].inputs[prefixItem][searchItem].name,
+												 squares[i].inputs[prefixItem][searchItem].url,
+												 squares[i].inputs[prefixItem][searchItem].space],
+												 5, i, normalcategory);
+							})
+						})
+
+				//destination = searchsquare.links[Object.keys(searchsquare.links)[0]][Object.keys(searchsquare.links[Object.keys(searchsquare.links)[0]])[0]]
+				/*for(var a=0; a < squares[i].inputs.length; a++){
 					var tf = configmenu.tabs[0]
 								.categories[0]
 								.options[i]
 								.appendTextField("option" + i, ["opt", "url", "space"], "squareOption",
-												 [squares[i].options[a].opt,
-												  squares[i].options[a].url,
-												  squares[i].options[a].space], 3, i, normalcategory);
-				}
+												 [squares[i].inputs[a].opt,
+												  squares[i].inputs[a].url,
+												  squares[i].inputs[a].space], 3, i, normalcategory);
+				}*/
 			}
 			if(squares[i].options === undefined){
 				var add = configmenu.tabs[0]

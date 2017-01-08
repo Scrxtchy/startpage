@@ -273,22 +273,25 @@ input {
 }
 .squareOption input {
 	display:inline-block;
-	position:absolute;
 	top:0;
 }
 .squareOption input[name="opt"] {
-	width:70px;
+	width: 70px;
 }
 .squareOption input[name="url"] {
-	margin-left:85px;
-	width:40.5vw;
+	width: 40.5vw;
 }
 .squareOption input[name="space"] {
-	margin-left:calc(100px + 40.5vw);
-	width:50px;
+	width: 2.5vw;
 }
 
+.squareOption input[name="id"], .squareOption input[name="prefix"]{
+	width: 2.5vw;
+}
 
+.squareOption input[name="name"]{
+	width: 8vw;
+}
 .option {
 	display:inline-block;
 	width:100%;
