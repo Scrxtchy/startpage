@@ -20,7 +20,9 @@ function $(query){
 				this.elements[i].style[key] = value;
 			} catch(err) {
 				console.log(err);
-				console.log({key: value});
+				errKey = {};
+				errKey[key] = value;
+				console.log(errKey);
 			}
 		}
 	};

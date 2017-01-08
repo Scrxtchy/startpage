@@ -362,7 +362,7 @@ function loadConfig(d, callback){
 			}
 		}else{
 			// otherwise expect this to be a search square
-			searchsquare = new Square(data.squares[i].name, data.squares[i].options, true);
+			searchsquare = new Square(data.squares[i].name, data.squares[i].inputs, true);
 			searchsquare.prefix = data.squares[i].prefix;
 			if(data.bool.alwaysopen){
 				searchsquare.expand();
@@ -375,12 +375,15 @@ function loadConfig(d, callback){
 	var a = $("a");
 	var popup = $("#popup");
 	var sqr = $(".sqr");
+	var input = $("input");
 	span.css("fontFamily", data.style.heading_font);
 	a.css("fontFamily", data.style.link_font);
 	popup.css("fontFamily", data.style.link_font);
+	input.css("fontFamily", data.style.link_font);
 	span.css("fontSize", data.style.heading_font_size);
 	a.css("fontSize", data.style.link_font_size);
 	popup.css("fontSize", data.style.link_font_size);
+	input.css("fontSize", data.style.link_font_size);
 	switch (data.style.bg_type) {
 		case "mp4":
 		case "webm":

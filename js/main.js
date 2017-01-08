@@ -84,32 +84,33 @@ String.prototype.replaceChars = function(character, replacement){
 
 
 function search(query){
+	var pattern =/^([^\w\d]+)([\w\d]+)/; //SEARCH PATTERN
+	var formattedQuery = pattern.exec(query);
+	if (formattedQuery == null){
+		window.location = searchsquare.links[0].options[0].url + query.replaceChars(" ", searchsquare.links[0].options[0].space);
+	} else {
+		formattedQuery.push(formattedQuery.input.replace(formattedQuery[0]+ " ", ""))
+	}
 	if(typeof searchsquare == 'undefined'){
 		configmenuInit(undefined);
-	}else if(query[0] == searchsquare.prefix){
-		if(query.substr(1) == "help"){
-			popup(popupDiv, HelpText);
-		}else if(query.substr(1) == "config"){
-			configmenuInit(undefined);
-		}else{
-			for(var i=0; i < searchsquare.links.length; i++){
-				if(query[1] == searchsquare.links[i].opt){
-					query = query.substr(3);
-					window.location = searchsquare.links[i].url +
-							query.replaceChars(" ", searchsquare.links[i].space);
-					break;
-				}
-			}
-		}
-	}else if(query === ""){
+	}else if (formattedQuery[0] == "-help"){
+		popup(popupDiv, HelpText); 					//display help text
+	}else if (formattedQuery[0] == "-config"){
+		configmenuInit(undefined); 					//open config menu
+	}else if (formattedQuery[0] === ""){
 		popup(popupDiv, HelpText);
-	}else{
-		window.location = searchsquare.links[0].url +
-				query.replaceChars(" ", searchsquare.links[0].space);
+	}else{ //search
+		searchsquare.links.forEach(function(arrInputItem){
+			if (formattedQuery[1] == arrInputItem.prefix){
+				arrInputItem.options.forEach(function(arrUrlItem){
+					if(formattedQuery[2] == arrUrlItem.opt){
+						window.location = arrUrlItem.url  + formattedQuery[3].replaceChars(" ", arrUrlItem.space);
+					}
+				})
+			}
+		})
 	}
 }
-
-
 
 window.onresize = function(){
 	fixJitter(container);
