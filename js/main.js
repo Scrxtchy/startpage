@@ -103,7 +103,13 @@ function search(query){
 	}else if (formattedQuery[0] === ""){
 		popup(popupDiv, HelpText);
 	}else{ //search
+		try{
 		dest = searchsquare.links[formattedQuery[1]][formattedQuery[2]]
+	} catch(e) {
+		destination = searchsquare.links[Object.keys(searchsquare.links)[0]][Object.keys(searchsquare.links[Object.keys(searchsquare.links)[0]])[0]]
+		window.location = destination.url + query.replaceChars(" ", destination.space);
+		return;
+	}
 		if(dest){
 			window.location = dest.url + formattedQuery[3].replaceChars(" ", dest.space)
 		}
@@ -120,8 +126,8 @@ var focusedLink = 0;
 
 function globalKeyListener(e){
 	if (e.charCode == 96 && e.ctrlKey && typeof configmenu !== "undefined"){
-		location.reload(); //Change back when able to properly use
-		return;
+		saveConfig(undefined);
+		location.reload();
 	}else if(typeof configmenu !== "undefined" ||
 	   searchsquare.searchinput == document.activeElement){
 		return;
